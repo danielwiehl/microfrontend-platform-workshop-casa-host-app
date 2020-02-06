@@ -1,0 +1,22 @@
+{
+  "name": "CASA Host App",
+  "baseUrl": "#",
+  "capabilities": [
+  ],
+  "intentions": [
+    {
+      "type": "view",
+      "qualifier": {
+        "entity": "person",
+        "id": "*"
+      }
+    },
+    {
+      "type": "toolbar-item",
+      "qualifier": {
+        "location": "header",
+        "*": "*"
+      }
+    }
+  ]
+}

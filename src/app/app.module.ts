@@ -1,18 +1,31 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { APP_INITIALIZER, CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { PlatformInitializerService } from './microfrontend-platform/platform-initializer.service';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
   ],
-  providers: [],
-  bootstrap: [AppComponent]
+  providers: [{
+    provide: APP_INITIALIZER,
+    multi: true,
+    useFactory: provideMicrofrontendPlatformInitializerFn,
+    deps: [PlatformInitializerService],
+  }],
+  bootstrap: [AppComponent],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
-export class AppModule { }
+
+export class AppModule {
+}
+
+export function provideMicrofrontendPlatformInitializerFn(initializer: PlatformInitializerService): () => Promise<void> {
+  return (): Promise<void> => initializer.init();
+}
